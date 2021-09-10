@@ -10,10 +10,14 @@ import lombok.RequiredArgsConstructor;
 import nl.jansolo.checkers.api.dto.CheckerGameDto;
 import nl.jansolo.checkers.api.dto.MoveDto;
 import nl.jansolo.checkers.api.dto.StartGameDto;
+import nl.jansolo.checkers.mapper.PlayerMapper;
+import nl.jansolo.checkers.model.Player;
 import nl.jansolo.checkers.service.CheckerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/checker")
@@ -21,17 +25,19 @@ import org.springframework.web.bind.annotation.*;
 public class CheckerController {
 
     private final CheckerService service;
+    private final PlayerMapper mapper;
 
     @PostMapping
-    @Operation(summary = "Starts a game, with two players")
+    @Operation(summary = "Starts a game, with two players, be warned this ends all other games")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns the initial game state, with two players, and a board",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = CheckerGameDto.class)) }),
             @ApiResponse(responseCode = "404", description = "The chosen opponent does not exist",
                     content = @Content)})
-    public ResponseEntity<CheckerGameDto> startGame(@RequestBody StartGameDto startGame) {
-        return new ResponseEntity<>(new CheckerGameDto(), HttpStatus.OK);
+    public ResponseEntity<CheckerGameDto> startGame(Principal principal, @RequestBody StartGameDto startGame) {
+        Player player = service.startGame(principal, startGame.getOpponentName(), startGame.getColorToPlayWith());
+        return new ResponseEntity<>(mapper.toDto(player), HttpStatus.OK);
     }
 
     @PutMapping
