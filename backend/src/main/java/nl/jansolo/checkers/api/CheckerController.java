@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import nl.jansolo.checkers.api.dto.CheckerGameDto;
 import nl.jansolo.checkers.api.dto.MoveDto;
 import nl.jansolo.checkers.api.dto.StartGameDto;
+import nl.jansolo.checkers.mapper.PlayerMapper;
 import nl.jansolo.checkers.model.Player;
 import nl.jansolo.checkers.service.CheckerService;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import java.security.Principal;
 public class CheckerController {
 
     private final CheckerService service;
+    private final PlayerMapper mapper;
 
     @PostMapping
     @Operation(summary = "Starts a game, with two players, be warned this ends all other games")
@@ -35,7 +37,7 @@ public class CheckerController {
                     content = @Content)})
     public ResponseEntity<CheckerGameDto> startGame(Principal principal, @RequestBody StartGameDto startGame) {
         Player player = service.startGame(principal, startGame.getOpponentName(), startGame.getColorToPlayWith());
-        return new ResponseEntity<>(new CheckerGameDto(), HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toDto(player), HttpStatus.OK);
     }
 
     @PutMapping

@@ -41,7 +41,10 @@ class CheckerControllerTest extends ApiTest {
                 .body("opponent.name", equalTo(PLAYER_2))
                 .body("opponent.color", equalTo(BLACK.toString()))
                 .body("opponent.myTurn", equalTo(false))
-                .body("opponent.status", equalTo(PLAYING.toString()));
+                .body("opponent.status", equalTo(PLAYING.toString()))
+                .body("board[0][0]", equalTo(""))
+                .body("board[0][1]", equalTo(BLACK.toString()))
+                .body("board[9][8]", equalTo(WHITE.toString()));
 
     }
 

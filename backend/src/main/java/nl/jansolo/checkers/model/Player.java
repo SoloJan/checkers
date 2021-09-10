@@ -29,7 +29,7 @@ public class Player {
     private Player opponent;
     @OneToMany(mappedBy = "owner",  orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Stone> stones;
-
+    private boolean myTurn;
 
     public Player(String name, String opponentName, boolean isWhite){
         this(name, isWhite);
@@ -39,6 +39,7 @@ public class Player {
 
     private Player(String name, boolean playsWithWhite){
         this.name = name;
+        this.myTurn = playsWithWhite;
         this.stones = new ArrayList<>();
         if(playsWithWhite){
             addWhiteStones();

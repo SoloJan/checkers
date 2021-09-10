@@ -2,7 +2,8 @@ CREATE TABLE public.player
 (
     id bigint NOT NULL,
     opponent_id bigint,
-    name character varying(256)
+    name character varying(256),
+    my_turn boolean NOT NULL
 );
 
 alter table public.player

@@ -1,24 +1,19 @@
 package nl.jansolo.checkers.api.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CheckerGameDto {
-
-    public CheckerGameDto(){
-        you = new PlayerDto();
-        opponent = new PlayerDto();
-        opponent.setName("player2");
-        opponent.setColor(Color.BLACK);
-        opponent.setMyTurn(false);
-
-    }
 
     private PlayerDto you;
     private PlayerDto opponent;
-    private List<List<String>> board;
+    private String[][]  board = new String[10][10];
 
 
 }

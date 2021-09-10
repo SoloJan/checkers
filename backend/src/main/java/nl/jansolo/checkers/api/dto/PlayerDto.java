@@ -1,19 +1,16 @@
 package nl.jansolo.checkers.api.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import static nl.jansolo.checkers.api.dto.Color.WHITE;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class PlayerDto {
-
-    public PlayerDto(){
-        name = "player1";
-        color = WHITE;
-        status = Status.PLAYING;
-        isMyTurn = true;
-    }
 
     private String name;
     @Schema(example = "WHITE")
