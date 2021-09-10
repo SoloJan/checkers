@@ -34,6 +34,7 @@ public class Player {
     public Player(String name, String opponentName, boolean isWhite){
         this(name, isWhite);
         this.opponent = new Player(opponentName, !isWhite);
+        this.opponent.setOpponent(this);
     }
 
     private Player(String name, boolean playsWithWhite){

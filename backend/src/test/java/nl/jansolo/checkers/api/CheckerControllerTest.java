@@ -45,6 +45,24 @@ class CheckerControllerTest extends ApiTest {
 
     }
 
+    @Test
+    void startWithNonExistingOpponent(){
+        startGame("non existing user", WHITE)
+            .then()
+                .statusCode(404)
+                .body("message", equalTo("non existing user is not a valid opponent, " +
+                        "please use the user/opponents api to see a list of all available opponents"));
+
+    }
+
+
+    @Test
+    void startTheSameGameTwice(){
+        startGame(PLAYER_2, WHITE);
+        startGame(PLAYER_2, WHITE)
+                .then()
+                .statusCode(200);
+    }
 
     private Response startGame(String opponentName, Color color) {
         return givenPlayer1IsLoggedIn()

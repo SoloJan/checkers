@@ -15,6 +15,7 @@ class PlayerTest {
         Player player = new Player("Jan", "Jan's brother", true);
         assertEquals("Jan", player.getName());
         assertEquals("Jan's brother", player.getOpponent().getName());
+        assertEquals(player, player.getOpponent().getOpponent());
         assertEquals(20, player.getStones().size());
         assertEquals(20, player.getOpponent().getStones().size());
         assertTrue(player.getStones().stream().allMatch(Stone::isWhite));

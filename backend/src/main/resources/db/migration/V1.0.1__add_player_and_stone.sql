@@ -1,7 +1,7 @@
 CREATE TABLE public.player
 (
     id bigint NOT NULL,
-    opponent_id bigint NOT NULL,
+    opponent_id bigint,
     name character varying(256)
 );
 
@@ -9,7 +9,7 @@ alter table public.player
     add primary key (id);
 alter table public.player
     ADD FOREIGN KEY (opponent_id)
-        REFERENCES player(id);
+        REFERENCES player(id) ON DELETE CASCADE;
 
 CREATE TABLE public.stone
 (
@@ -25,7 +25,7 @@ alter table public.stone
     add primary key (id);
 alter table public.stone
     ADD FOREIGN KEY (player_id)
-        REFERENCES player(id);
+        REFERENCES player(id) ON DELETE CASCADE;
 
 
 
