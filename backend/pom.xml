@@ -101,7 +101,7 @@
             <version>0.8.5</version>
             <configuration>
                 <excludes>
-                    <exclude>**/*BookstoreApplication*</exclude>
+                    <exclude>**/*CheckerApplication*</exclude>
                 </excludes>
             </configuration>
             <executions>
