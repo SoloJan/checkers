@@ -7,11 +7,6 @@ on:
 
   push:
 
-    branches:
-
-      - develop
-
-
 jobs:
 
   build:
