@@ -24,6 +24,11 @@ public abstract class ApiTest {
     private String player1UserName;
     @Value("${player1.user.password}")
     private String player1Password;
+    @Value("${player2.user.name}")
+    private String player2UserName;
+    @Value("${player2.user.password}")
+    private String player2Password;
+
 
     protected String getUrl(String endpoint){
         return BASE_URL + endpoint;
@@ -42,5 +47,11 @@ public abstract class ApiTest {
         return given()
                 .auth().basic(player1UserName, player1Password);
     }
+
+    protected RequestSpecification givenPlayer2IsLoggedIn() {
+        return given()
+                .auth().basic(player2UserName, player2Password);
+    }
+
 
 }

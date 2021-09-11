@@ -46,14 +46,22 @@ public class CheckerController {
             @ApiResponse(responseCode = "200", description = "Returns the game state after the move of this player, check the isMyTurn value to see if you sh",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = CheckerGameDto.class)) }),
-            @ApiResponse(responseCode = "404", description = "The stone you are trying to move does not exist",
+            @ApiResponse(responseCode = "404", description = "There is no game active for the player, or the stone you are trying to move does not exist",
                     content = @Content),
-            @ApiResponse(responseCode = "403", description = "The stone you are trying to move belongs to the opponent",
+            @ApiResponse(responseCode = "403", description = "Its not your turn, or the game has finished",
                     content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid move",
                     content = @Content)})
-    public ResponseEntity<CheckerGameDto> move(@RequestBody MoveDto move) {
-        return new ResponseEntity<>(new CheckerGameDto(), HttpStatus.OK);
+    public ResponseEntity<CheckerGameDto> move(Principal principal, @RequestBody MoveDto move) {
+        Player player = service.doMove(principal, move.getFrom().getRow(), move.getFrom().getColumn(), move.getTo().getRow(), move.getTo().getColumn());
+        return new ResponseEntity<>(mapper.toDto(player), HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    @Operation(summary = "If the player is in a current game, this will end it")
+    public ResponseEntity<Void> endGame(Principal principal) {
+        service.endGameForUser(principal);
+        return new ResponseEntity<Void>( HttpStatus.NO_CONTENT);
     }
 
 }

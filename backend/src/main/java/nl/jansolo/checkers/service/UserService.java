@@ -2,7 +2,7 @@ package nl.jansolo.checkers.service;
 
 import lombok.RequiredArgsConstructor;
 import nl.jansolo.checkers.config.UserBean;
-import nl.jansolo.checkers.service.exception.OpponentNotFoundException;
+import nl.jansolo.checkers.exception.OpponentNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;

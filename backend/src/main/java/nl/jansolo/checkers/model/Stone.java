@@ -2,7 +2,7 @@ package nl.jansolo.checkers.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import nl.jansolo.checkers.service.exception.InvalidMoveException;
+import nl.jansolo.checkers.exception.InvalidMoveException;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -33,7 +33,7 @@ public class Stone {
     @Column(name = "is_white")
     private boolean white;
 
-     public Stone(Player owner, boolean isWhite,  int row, int column) {
+    Stone(Player owner, boolean isWhite,  int row, int column) {
          this.owner = owner;
          this.white = isWhite;
          this.row = row;
@@ -41,13 +41,7 @@ public class Stone {
          this.inGame = true;
      }
 
-    /**
-     *  This performs a move on the stone it throws an exception if the move is invalid.
-     *  It hits an opponent stone if it jumps it. 
-     * @param row
-     * @param column
-     * @throws InvalidMoveException
-     */
+
      public void move(int row, int column){
          if(!canMove(row, column)){
              throw new InvalidMoveException();
