@@ -4,6 +4,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import nl.jansolo.checkers.exception.InvalidMoveException;
+import nl.jansolo.checkers.exception.NotYourTurnException;
+import nl.jansolo.checkers.exception.StoneNotFoundException;
+
 import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.parameters.P;
 
@@ -50,8 +54,45 @@ public class Player {
     }
 
     public Optional<Stone> findStone(int row, int column){
-        return stones.stream().filter(s -> s.getColumn().equals(column) && s.getRow().equals(row)).findAny();
+        return stones.stream().filter(s -> Integer.valueOf(column).equals(s.getColumn()) && Integer.valueOf(row).equals(s.getRow())).findAny();
     }
+
+    public Stone getStone(int row, int column){
+        return findStone(row, column).orElseThrow(() -> new  StoneNotFoundException());
+    }
+
+    /**
+     *  This performs a move on the stone it throws an exception if the move is invalid.
+     *  It hits an opponent stone if it jumps it.
+     *  It then switches turns
+     * @param fromRow
+     * @param fromColumn
+     * @param toRow
+     * @param toColumn
+     * @throws NotYourTurnException if it is not the turn of this player, or the game has ended
+     * @throws StoneNotFoundException if the stone does not exist on the coordinates
+     * @throws InvalidMoveException if the stone exist but the move is invalid
+     *
+     */
+
+    public void move(int fromRow, int fromColumn, int toRow, int toColumn){
+        validateCanPlay();
+        getStone(fromRow, fromColumn).move(toRow, toColumn);
+        switchTurns();
+    }
+
+    private void validateCanPlay(){
+        if(!myTurn){
+            throw new NotYourTurnException();
+        }
+    }
+
+
+    private void switchTurns() {
+        getOpponent().setMyTurn(myTurn);
+        myTurn = !myTurn;
+    }
+
 
     private void addBlackStones(){
         for(int row = 0; row<=3; row++){
