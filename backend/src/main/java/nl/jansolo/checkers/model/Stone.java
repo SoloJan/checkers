@@ -2,6 +2,7 @@ package nl.jansolo.checkers.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import nl.jansolo.checkers.service.exception.InvalidMoveException;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -38,4 +39,48 @@ public class Stone {
          this. column = column;
          this.inGame = true;
      }
+
+     public void move(int row, int column){
+         if(!canMove(row, column)){
+             throw new InvalidMoveException();
+         }
+         this.row = row;
+         this.column = column;
+     }
+
+     public boolean canMove(int row, int column){
+         if(isOutOfBoard(row) || isOutOfBoard(column)){
+             return false;
+         }
+         if(isOnTopOfOtherStone(row, column)){
+             return false;
+         }
+        return isValidBasicMove(row, column);
+     }
+
+     private boolean isValidBasicMove(int row, int column){
+       return isRowValidForBasicMove(row) && isColumnValidForBasicMove(column);
+     }
+
+     private boolean isRowValidForBasicMove(int row){
+         if(white){
+             return row == this.row-1;
+         }
+         return row == this.row +1;
+     }
+
+    private boolean isColumnValidForBasicMove(int column){
+       return   column == this.column + 1 || column == this.column - 1;
+    }
+
+
+    public boolean isOnTopOfOtherStone(int row, int column){
+         return owner.findStone(row, column).isPresent() || owner.getOpponent().findStone(row, column).isPresent();
+    }
+
+     public boolean isOutOfBoard(int rowOrColumn){
+         return rowOrColumn < 0 || rowOrColumn > 9;
+     }
+
+
 }
