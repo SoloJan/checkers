@@ -28,8 +28,6 @@ public class Stone {
     @Size(min = 0, max = 9, message = "You must place the stone on the board")
     private Integer column;
 
-    @Column(name = "is_in_game")
-    private boolean inGame;
     @Column(name = "is_white")
     private boolean white;
 
@@ -37,8 +35,7 @@ public class Stone {
          this.owner = owner;
          this.white = isWhite;
          this.row = row;
-         this. column = column;
-         this.inGame = true;
+         this.column = column;
      }
 
 
@@ -78,10 +75,27 @@ public class Stone {
         return !canADifferentStoneHit() && isValidBasicMove(row, column);
      }
 
-     public boolean canHit(){
+    /**
+     *
+     * @return if the stone can move in any direction
+     */
+    public boolean canMove(){
+         return canHit() ||
+                 canMove(row+1, column+1) || canMove(row+1, column-1) ||
+                 canMove(row-1, column+1) || canMove(row-1, column-1);
+    }
+
+
+    public boolean canHit(){
          return isValidHit(this.row+2, this.column +2) || isValidHit(this.row+2, this.column -2) ||
                  isValidHit(this.row-2, this.column +2) || isValidHit(this.row-2, this.column -2);
      }
+
+     void gotHit(){
+        this.column = null;
+        this.row = null;
+    }
+
 
     private void hitIfPossible(int row, int column) {
          getStoneToJump(row, column).ifPresent(Stone::gotHit);
@@ -109,11 +123,6 @@ public class Stone {
 
      private boolean isValidHit(int row, int column){
         return getStoneToJump(row, column).isPresent();
-     }
-
-     private void gotHit(){
-         this.column = null;
-         this.row = null;
      }
 
      private boolean canADifferentStoneHit(){
