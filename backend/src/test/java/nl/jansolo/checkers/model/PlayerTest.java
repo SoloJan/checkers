@@ -1,6 +1,5 @@
 package nl.jansolo.checkers.model;
 
-import nl.jansolo.checkers.exception.InvalidMoveException;
 import nl.jansolo.checkers.exception.NotYourTurnException;
 import nl.jansolo.checkers.exception.StoneNotFoundException;
 import org.junit.jupiter.api.Test;
@@ -48,6 +47,28 @@ class PlayerTest {
         assertFalse(player.isMyTurn());
         assertTrue(player.getOpponent().isMyTurn());
     }
+
+    @Test
+    void playerLosesWhenHeRunsOutOfMoves(){
+        Player whitePlayer = startAsWhitePlayer();
+
+        //blackPlayer loses all his stones
+        whitePlayer.getOpponent().getStones().stream().forEach(p -> p.gotHit());
+
+        // whitePlayer moves stone, and the black player gets the turn
+        whitePlayer.move(6,9, 5,8);
+
+        assertTrue(whitePlayer.didWin());
+        assertTrue(whitePlayer.getOpponent().didLose());
+        assertTrue(whitePlayer.gameEnded());
+        assertTrue(whitePlayer.getOpponent().gameEnded());
+
+        //Both black and white can not move anymore because the game has ended
+        assertThrows(NotYourTurnException.class, () ->  whitePlayer.move(3,2, 4,3));
+        assertThrows(NotYourTurnException.class, () ->  whitePlayer.getOpponent().move(3,2, 4,3));
+
+    }
+
 
 
     private Player startAsWhitePlayer() {

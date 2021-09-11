@@ -15,6 +15,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -61,6 +62,16 @@ public class Player {
         return findStone(row, column).orElseThrow(() -> new  StoneNotFoundException());
     }
 
+
+
+    /**
+     * @return all stones which are still in the game and belong to the player
+     */
+    public List<Stone> getStones(){
+        return this.stones.stream().filter(s -> s.getRow() != null && s.getColumn() !=null).collect(Collectors.toList());
+    }
+
+
     /**
      *  This performs a move on the stone it throws an exception if the move is invalid.
      *  It hits an opponent stone if it jumps it.
@@ -81,8 +92,25 @@ public class Player {
         switchTurns();
     }
 
+    /**
+     *  The game is lost when it is your turn and you run out of moves, either because you have no stones left or you can not move them
+     * @return if the player lost
+     */
+    public boolean didLose(){
+        return myTurn && !getStones().stream().anyMatch(Stone::canMove);
+    }
+
+    public boolean didWin(){
+        return opponent.didLose();
+    }
+
+    public boolean gameEnded(){
+        return didWin() || didLose();
+    }
+
+
     private void validateCanPlay(){
-        if(!myTurn){
+        if(!myTurn || gameEnded()){
             throw new NotYourTurnException();
         }
     }
