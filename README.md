@@ -1,4 +1,4 @@
-![](https://github.com/SoloJan/bookstore/workflows/tests/badge.svg)
+![](https://github.com/SoloJan/checkers/workflows/tests/badge.svg)
 
 # Checkers for nerds
 This is checkers for nerds, its very intuitive but only if you are used to working with REST api's. It has the latest 

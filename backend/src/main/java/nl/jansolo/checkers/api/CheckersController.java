@@ -6,13 +6,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-
-import nl.jansolo.checkers.api.dto.CheckerGameDto;
+import nl.jansolo.checkers.api.dto.CheckersGameDto;
 import nl.jansolo.checkers.api.dto.MoveDto;
 import nl.jansolo.checkers.api.dto.StartGameDto;
 import nl.jansolo.checkers.mapper.PlayerMapper;
 import nl.jansolo.checkers.model.Player;
-import nl.jansolo.checkers.service.CheckerService;
+import nl.jansolo.checkers.service.CheckersService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +19,11 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/checker")
+@RequestMapping("/checkers")
 @RequiredArgsConstructor
-public class CheckerController {
+public class CheckersController {
 
-    private final CheckerService service;
+    private final CheckersService service;
     private final PlayerMapper mapper;
 
     @PostMapping
@@ -32,10 +31,10 @@ public class CheckerController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns the initial game state, with two players, and a board",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = CheckerGameDto.class)) }),
+                            schema = @Schema(implementation = CheckersGameDto.class)) }),
             @ApiResponse(responseCode = "404", description = "The chosen opponent does not exist",
                     content = @Content)})
-    public ResponseEntity<CheckerGameDto> startGame(Principal principal, @RequestBody StartGameDto startGame) {
+    public ResponseEntity<CheckersGameDto> startGame(Principal principal, @RequestBody StartGameDto startGame) {
         Player player = service.startGame(principal, startGame.getOpponentName(), startGame.getColorToPlayWith());
         return new ResponseEntity<>(mapper.toDto(player), HttpStatus.OK);
     }
@@ -45,14 +44,14 @@ public class CheckerController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns the game state after the move of this player, check the isMyTurn value to see if you sh",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = CheckerGameDto.class)) }),
+                            schema = @Schema(implementation = CheckersGameDto.class)) }),
             @ApiResponse(responseCode = "404", description = "There is no game active for the player, or the stone you are trying to move does not exist",
                     content = @Content),
             @ApiResponse(responseCode = "403", description = "Its not your turn, or the game has finished",
                     content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid move",
                     content = @Content)})
-    public ResponseEntity<CheckerGameDto> move(Principal principal, @RequestBody MoveDto move) {
+    public ResponseEntity<CheckersGameDto> move(Principal principal, @RequestBody MoveDto move) {
         Player player = service.doMove(principal, move.getFrom().getRow(), move.getFrom().getColumn(), move.getTo().getRow(), move.getTo().getColumn());
         return new ResponseEntity<>(mapper.toDto(player), HttpStatus.OK);
     }

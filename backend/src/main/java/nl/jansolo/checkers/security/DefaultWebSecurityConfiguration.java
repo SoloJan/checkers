@@ -45,7 +45,7 @@ public class DefaultWebSecurityConfiguration extends WebSecurityConfigurerAdapte
                 .authorizeRequests()
                 .antMatchers( "/h2-console/**").hasRole(ROLE_DEVELOPER)
                 .antMatchers("/v3/api-docs/**", "/swagger*/**", "/webjars/**").permitAll()
-                .antMatchers( "/checker/**").hasRole(ROLE_PLAYER)
+                .antMatchers( "/checkers/**").hasRole(ROLE_PLAYER)
                 .antMatchers( "/user/opponent").hasRole(ROLE_PLAYER)
                 .anyRequest().denyAll()
                 .and()
