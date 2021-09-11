@@ -103,7 +103,7 @@ class CheckerControllerTest extends ApiTest {
         startGame(PLAYER_2, BLACK);
         moveAsPlayer1(6,5, 5,4)
                 .then()
-                .statusCode(401)
+                .statusCode(403)
                 .body("message", equalTo("Its not your turn wait for the other player to move, or the game has ended"));
     }
 
