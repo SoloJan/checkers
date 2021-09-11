@@ -62,6 +62,37 @@ class StoneTest {
 
     }
 
+    @Test
+    public void canHit(){
+        Player whitePlayer =  startGame();
+        Player blackPlayer =  whitePlayer.getOpponent();
+        Stone white = whitePlayer.findStone(6, 5).get();
+        Stone black = blackPlayer.findStone(3, 2).get();
+        white.move(5, 4);
+        black.move(4, 3);
+        boolean whiteCanHit =  white.canMove(3, 2);
+        boolean blackCanHit =  black.canMove(6, 5);
+        assertTrue(whiteCanHit);
+        assertTrue(blackCanHit);
+    }
+
+    @Test
+    public void shouldHit(){
+        Player whitePlayer =  startGame();
+        Player blackPlayer =  whitePlayer.getOpponent();
+        Stone white = whitePlayer.findStone(6, 5).get();
+        Stone black = blackPlayer.findStone(3, 2).get();
+        white.move(5, 4);
+        black.move(4, 3);
+        boolean canNotIgnoreHitWithSameStone =  white.canMove(4, 5);
+        Stone secondStone = whitePlayer.findStone(6, 1).get();
+        boolean canNotIgnoreHitWithSecondStone =  secondStone.canMove(5, 2);
+        assertFalse(canNotIgnoreHitWithSameStone);
+        assertFalse(canNotIgnoreHitWithSecondStone);
+    }
+
+
+
     private Player startGame(){
         return  new Player("Jan", "Jan's brother", true);
     }

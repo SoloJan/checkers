@@ -6,6 +6,7 @@ import nl.jansolo.checkers.service.exception.InvalidMoveException;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.Optional;
 
 @Entity
 @Data
@@ -40,14 +41,36 @@ public class Stone {
          this.inGame = true;
      }
 
+    /**
+     *  This performs a move on the stone it throws an exception if the move is invalid.
+     *  It hits an opponent stone if it jumps it. 
+     * @param row
+     * @param column
+     * @throws InvalidMoveException
+     */
      public void move(int row, int column){
          if(!canMove(row, column)){
              throw new InvalidMoveException();
          }
+         hitIfPossible(row, column);
          this.row = row;
          this.column = column;
      }
 
+
+    /**
+     * This method checks if the stone can do a requested move.
+     * A valid move is within the space of the board The upper left corner has coordinates (0,0) the bottom right corner has coordinates (9,9)
+     * A valid move is not on top of a different stone
+     * A valid move can be a hit in which case you jump a stone of the opponent
+     * If you can hit, you should hit.
+     * If a different stone can hit, you are not allowed to do a normal move.
+     * White moves up in the board, black moves down but hits can go in both directions
+     *
+     * @param row the row to move the stone to
+     * @param column the column to move the stone to
+     * @return if the requested move is valid
+     */
      public boolean canMove(int row, int column){
          if(isOutOfBoard(row) || isOutOfBoard(column)){
              return false;
@@ -55,7 +78,52 @@ public class Stone {
          if(isOnTopOfOtherStone(row, column)){
              return false;
          }
-        return isValidBasicMove(row, column);
+         if(canHit()){
+             return isValidHit(row, column);
+         }
+        return !canADifferentStoneHit() && isValidBasicMove(row, column);
+     }
+
+     public boolean canHit(){
+         return isValidHit(this.row+2, this.column +2) || isValidHit(this.row+2, this.column -2) ||
+                 isValidHit(this.row-2, this.column +2) || isValidHit(this.row-2, this.column -2);
+     }
+
+    private void hitIfPossible(int row, int column) {
+         getStoneToJump(row, column).ifPresent(Stone::gotHit);
+    }
+
+     private Optional<Stone> getStoneToJump(int row, int column){
+         if(row == this.row+2){
+             if(column  == this.column+2){
+                 return getOwner().getOpponent().findStone(row-1, column-1);
+             }
+             if(column == this.getColumn()-2){
+                 return getOwner().getOpponent().findStone(row-1, column+1);
+             }
+         }
+         if(row == this.row-2){
+             if(column  == this.column+2){
+                 return getOwner().getOpponent().findStone(row+1, column-1);
+             }
+             if(column == this.getColumn()-2){
+                 return getOwner().getOpponent().findStone(row+1, column+1);
+             }
+         }
+         return Optional.empty();
+     }
+
+     private boolean isValidHit(int row, int column){
+        return getStoneToJump(row, column).isPresent();
+     }
+
+     private void gotHit(){
+         this.column = null;
+         this.row = null;
+     }
+
+     private boolean canADifferentStoneHit(){
+         return this.getOwner().getStones().stream().anyMatch(Stone::canHit);
      }
 
      private boolean isValidBasicMove(int row, int column){
