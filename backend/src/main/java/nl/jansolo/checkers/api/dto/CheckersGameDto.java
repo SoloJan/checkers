@@ -4,12 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CheckerGameDto {
+public class CheckersGameDto {
 
     private PlayerDto you;
     private PlayerDto opponent;

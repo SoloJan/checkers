@@ -3,9 +3,9 @@ package nl.jansolo.checkers.service;
 import lombok.RequiredArgsConstructor;
 import nl.jansolo.checkers.api.dto.Color;
 import nl.jansolo.checkers.config.UserBean;
+import nl.jansolo.checkers.exception.PlayerNotFoundException;
 import nl.jansolo.checkers.model.Player;
 import nl.jansolo.checkers.repository.PlayerRepository;
-import nl.jansolo.checkers.exception.PlayerNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -13,7 +13,7 @@ import java.security.Principal;
 
 @Service
 @RequiredArgsConstructor
-public class CheckerService {
+public class CheckersService {
 
     private final UserService userService;
     private final PlayerRepository playerRepository;

@@ -101,7 +101,7 @@
             <version>0.8.5</version>
             <configuration>
                 <excludes>
-                    <exclude>**/*CheckerApplication*</exclude>
+                    <exclude>**/*CheckersApplication*</exclude>
                 </excludes>
             </configuration>
             <executions>

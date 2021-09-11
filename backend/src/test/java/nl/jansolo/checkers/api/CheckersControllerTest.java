@@ -4,9 +4,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import nl.jansolo.checkers.api.dto.Color;
-import nl.jansolo.checkers.repository.PlayerRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static nl.jansolo.checkers.api.UserApiTest.PLAYER_1;
 import static nl.jansolo.checkers.api.UserApiTest.PLAYER_2;
@@ -16,10 +14,10 @@ import static nl.jansolo.checkers.api.dto.Status.PLAYING;
 import static org.hamcrest.Matchers.equalTo;
 
 
-class CheckerControllerTest extends ApiTest {
+class CheckersControllerTest extends ApiTest {
 
     private String getBaseUrl(){
-        return getUrl("/checker");
+        return getUrl("/checkers");
     }
 
 

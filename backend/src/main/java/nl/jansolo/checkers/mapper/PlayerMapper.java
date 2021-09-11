@@ -1,6 +1,6 @@
 package nl.jansolo.checkers.mapper;
 
-import nl.jansolo.checkers.api.dto.CheckerGameDto;
+import nl.jansolo.checkers.api.dto.CheckersGameDto;
 import nl.jansolo.checkers.api.dto.Color;
 import nl.jansolo.checkers.api.dto.PlayerDto;
 import nl.jansolo.checkers.api.dto.Status;
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class PlayerMapper {
 
-    public CheckerGameDto toDto(Player player){
-        return new CheckerGameDto(toPlayerDto(player), toPlayerDto(player.getOpponent()), toBoard(player));
+    public CheckersGameDto toDto(Player player){
+        return new CheckersGameDto(toPlayerDto(player), toPlayerDto(player.getOpponent()), toBoard(player));
     }
 
 
