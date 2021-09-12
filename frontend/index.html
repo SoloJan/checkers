@@ -8,43 +8,43 @@
 <body>
 
 <div class="center-screen" id="status">It is whites turn</div>
-
+<div class="center-screen">You win if the opponent is out of moves</div>
 <table id ="board" class="center-screen">
     <tr>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="black-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="black-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="black-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="black-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
     </tr>
     <tr>
-        <th class="blackSquare"><img src="black-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="black-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="black-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="black-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="black-stone.png"></th>
-        <th class="whiteSquare"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
     </tr>
     <tr>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="black-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="black-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="black-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="black-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
     </tr>
     <tr>
         <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
@@ -131,8 +131,8 @@
         <th class="whiteSquare" onclick="clickCell(this)"></th>
     </tr>
 
-    <input  id="fromRow"  value="99">
-    <input  id="fromColumn"  value="99">
+    <input type="hidden" id="fromRow"  value="99">
+    <input type="hidden" id="fromColumn"  value="99">
 </table>
 
 <script>
@@ -143,7 +143,6 @@
     const blackIsMoving = 'Black is moving';
 
     function clickCell(cell) {
-        log(cell);
         if(shouldSelectStone()) {
             selectStone(cell);
         }
@@ -187,12 +186,12 @@
     }
 
     function canSelectWhite(cell){
-        return  getStatus() ==  itIsWhitesTurn && cellHasWhiteStoneOnIt(cell) && canDoAnyMove(cell, true);
+        return  getStatus() ==  itIsWhitesTurn && cellHasWhiteStoneOnIt(cell) &&  (canDoAnyHit(cell, true) || !canADifferentStoneHit(true)) &&  canDoAnyMove(cell, true);
     }
 
 
     function canSelectBlack(cell){
-        return  getStatus() ==  itIsBlacksTurn && cellHasBlackStoneOnIt(cell) && canDoAnyMove(cell, false)
+        return  getStatus() ==  itIsBlacksTurn && cellHasBlackStoneOnIt(cell) &&  (canDoAnyHit(cell, false) || !canADifferentStoneHit(false)) && canDoAnyMove(cell, false)
     }
 
     function canDoAnyMove(fromCell, isWhite){
@@ -209,8 +208,13 @@
     }
 
     function canDoMove(fromCell, toCell, isWhite){
-        return cellIsEmpty(toCell) &&
-        canDoBasicMove(fromCell, toCell, isWhite)
+        if(!cellIsEmpty(toCell)){
+            return false;
+        }
+        if(canDoAnyHit(fromCell, isWhite)){
+            return canHit(fromCell, toCell, isWhite)
+        }
+        return canDoBasicMove(fromCell, toCell, isWhite)
     }
 
     function canDoBasicMove(fromCell, toCell, isWhite){
@@ -220,6 +224,66 @@
         }
         return validColumnMove && toCell.parentNode.rowIndex == fromCell.parentNode.rowIndex +1;
     }
+
+    function canDoAnyHit(fromCell, isWhite){
+        const board = document.getElementById("board");
+
+        for (let row = 0; row < board.rows.length; row++) {
+            for (let column = 0; column < board.rows[row].cells.length; column++) {
+                const toCell = getCell(row, column);
+                if(canHit(fromCell, toCell,  isWhite)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function canADifferentStoneHit(isWhite){
+        const cells = getAllCellFromColor(isWhite);
+        for (const cell of cells) {
+            if(canDoAnyHit(cell, isWhite)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function getAllCellFromColor(isWhite){
+        let cellArray = new Array();
+        const board = document.getElementById("board");
+        for (let row = 0; row < board.rows.length; row++) {
+            for (let column = 0; column < board.rows[row].cells.length; column++) {
+                cellArray.concat()
+                const cell = getCell(row, column);
+
+                if(isWhite && cellHasWhiteStoneOnIt(cell)){
+                    cellArray.push(cell);
+                }
+                if(!isWhite && cellHasBlackStoneOnIt(cell)){
+                    cellArray.push(cell);
+                }
+            }
+        }
+        return cellArray
+    }
+
+    function canHit(fromCell, toCell, isWhite){
+        const destinationEmpty = cellIsEmpty(toCell);
+        const validColumnMove =  (toCell.cellIndex == fromCell.cellIndex+2 || toCell.cellIndex == fromCell.cellIndex-2);
+        const validRowMove = (toCell.parentNode.rowIndex == fromCell.parentNode.rowIndex +2 || toCell.parentNode.rowIndex == fromCell.parentNode.rowIndex -2);
+        if(isWhite){
+            return validColumnMove && validRowMove &&  destinationEmpty && cellHasBlackStoneOnIt(getCellInBetween(fromCell, toCell));
+        }
+        return validColumnMove && validRowMove &&  destinationEmpty &&  cellHasWhiteStoneOnIt(getCellInBetween(fromCell, toCell));
+    }
+
+    function getCellInBetween(fromCell, toCell){
+        const cellInBetweenRow = fromCell.parentNode.rowIndex + (((toCell.parentNode.rowIndex - fromCell.parentNode.rowIndex) / 2));
+        const cellInBetweenColumn = fromCell.cellIndex +  (((toCell.cellIndex - fromCell.cellIndex) / 2));
+        return getCell(cellInBetweenRow, cellInBetweenColumn);
+    }
+
 
 
     function getFromRow(){
@@ -235,19 +299,26 @@
     }
 
     function moveWhiteStone(toCell){
-        if(canDoMove(getCell(getFromRow(), getFromColumn()), toCell, true)) {
+        const fromCell = getCell(getFromRow(), getFromColumn());
+        if(canDoMove(fromCell, toCell, true)) {
+            if(canHit(fromCell, toCell, true)){
+                getCellInBetween(fromCell, toCell).innerHTML = '';
+            }
             toCell.innerHTML = '<img src="white-stone.png">';
             setStatus(itIsBlacksTurn);
         }
     }
 
     function moveBlackStone(toCell){
-        if(canDoMove(getCell(getFromRow(), getFromColumn()), toCell, false)) {
+        const fromCell = getCell(getFromRow(), getFromColumn());
+        if(canDoMove(fromCell, toCell, false)) {
+            if(canHit(fromCell, toCell, false)){
+                getCellInBetween(fromCell, toCell).innerHTML = '';
+            }
             toCell.innerHTML = '<img src="black-stone.png">';
             setStatus(itIsWhitesTurn);
         }
     }
-
 
     function shouldSelectStone(){
         return getStatus() == itIsWhitesTurn || getStatus() == itIsBlacksTurn;
@@ -276,19 +347,6 @@
 
     function cellHasBlackStoneOnIt(cell){
         return !cellIsEmpty(cell) &&  cell.lastChild.src.endsWith('black-stone.png')
-    }
-
-
-    function log(cell){
-        const celIndex = cell.cellIndex;
-        const rowIndex = cell.parentNode.rowIndex;
-
-
-        console.log("clicked my function row is: "+ rowIndex + " column is: "+ celIndex, cell.innerHTML);
-        console.log("Cell has white stone on it: "+ cellHasWhiteStoneOnIt(cell));
-        console.log("Cell is empty: "+ cellIsEmpty(cell));
-        console.log("Status of game is: "+ getStatus());
-        console.log("Status of game is: "+ getStatus());
     }
 
 </script>
