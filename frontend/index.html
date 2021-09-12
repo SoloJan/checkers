@@ -8,7 +8,7 @@
 <body>
 
 <div class="center-screen" id="status">It is whites turn</div>
-
+<div class="center-screen">You win if the opponent is out of moves</div>
 <table id ="board" class="center-screen">
     <tr>
         <th class="whiteSquare" onclick="clickCell(this)"></th>
@@ -131,8 +131,8 @@
         <th class="whiteSquare" onclick="clickCell(this)"></th>
     </tr>
 
-    <input  id="fromRow"  value="99">
-    <input  id="fromColumn"  value="99">
+    <input type="hidden" id="fromRow"  value="99">
+    <input type="hidden" id="fromColumn"  value="99">
 </table>
 
 <script>
@@ -143,7 +143,6 @@
     const blackIsMoving = 'Black is moving';
 
     function clickCell(cell) {
-        log(cell);
         if(shouldSelectStone()) {
             selectStone(cell);
         }
@@ -187,12 +186,12 @@
     }
 
     function canSelectWhite(cell){
-        return  getStatus() ==  itIsWhitesTurn && cellHasWhiteStoneOnIt(cell) && canDoAnyMove(cell, true);
+        return  getStatus() ==  itIsWhitesTurn && cellHasWhiteStoneOnIt(cell) &&  (canDoAnyHit(cell, true) || !canADifferentStoneHit(true)) &&  canDoAnyMove(cell, true);
     }
 
 
     function canSelectBlack(cell){
-        return  getStatus() ==  itIsBlacksTurn && cellHasBlackStoneOnIt(cell) && canDoAnyMove(cell, false)
+        return  getStatus() ==  itIsBlacksTurn && cellHasBlackStoneOnIt(cell) &&  (canDoAnyHit(cell, false) || !canADifferentStoneHit(false)) && canDoAnyMove(cell, false)
     }
 
     function canDoAnyMove(fromCell, isWhite){
@@ -215,7 +214,7 @@
         if(canDoAnyHit(fromCell, isWhite)){
             return canHit(fromCell, toCell, isWhite)
         }
-        return !canADifferentStoneHit() && canDoBasicMove(fromCell, toCell, isWhite)
+        return canDoBasicMove(fromCell, toCell, isWhite)
     }
 
     function canDoBasicMove(fromCell, toCell, isWhite){
@@ -228,6 +227,7 @@
 
     function canDoAnyHit(fromCell, isWhite){
         const board = document.getElementById("board");
+
         for (let row = 0; row < board.rows.length; row++) {
             for (let column = 0; column < board.rows[row].cells.length; column++) {
                 const toCell = getCell(row, column);
@@ -269,12 +269,13 @@
     }
 
     function canHit(fromCell, toCell, isWhite){
+        const destinationEmpty = cellIsEmpty(toCell);
         const validColumnMove =  (toCell.cellIndex == fromCell.cellIndex+2 || toCell.cellIndex == fromCell.cellIndex-2);
         const validRowMove = (toCell.parentNode.rowIndex == fromCell.parentNode.rowIndex +2 || toCell.parentNode.rowIndex == fromCell.parentNode.rowIndex -2);
         if(isWhite){
-            return validColumnMove && validRowMove && cellHasBlackStoneOnIt(getCellInBetween(fromCell, toCell));
+            return validColumnMove && validRowMove &&  destinationEmpty && cellHasBlackStoneOnIt(getCellInBetween(fromCell, toCell));
         }
-        return validColumnMove && validRowMove &&  cellHasWhiteStoneOnIt(getCellInBetween(fromCell, toCell));
+        return validColumnMove && validRowMove &&  destinationEmpty &&  cellHasWhiteStoneOnIt(getCellInBetween(fromCell, toCell));
     }
 
     function getCellInBetween(fromCell, toCell){
@@ -304,12 +305,7 @@
                 getCellInBetween(fromCell, toCell).innerHTML = '';
             }
             toCell.innerHTML = '<img src="white-stone.png">';
-            if(isOutOfMoves(false)){
-                setStatus("WHITE WON!!!!!")
-            }
-            else{
             setStatus(itIsBlacksTurn);
-            }
         }
     }
 
@@ -320,27 +316,8 @@
                 getCellInBetween(fromCell, toCell).innerHTML = '';
             }
             toCell.innerHTML = '<img src="black-stone.png">';
-            if(isOutOfMoves(true)){
-                setStatus("BLACK WON!!!!!")
-            }
-            else {
-                setStatus(itIsWhitesTurn);
-            }
+            setStatus(itIsWhitesTurn);
         }
-    }
-
-
-    function isOutOfMoves(isWhite){
-        const cells = getAllCellFromColor(isWhite);
-        if(cells.length == 0){
-            return true;
-        }
-        for (const cell of cells) {
-            if(canDoAnyMove(cell, isWhite)){
-                return false;
-            }
-        }
-        return true;
     }
 
     function shouldSelectStone(){
@@ -370,19 +347,6 @@
 
     function cellHasBlackStoneOnIt(cell){
         return !cellIsEmpty(cell) &&  cell.lastChild.src.endsWith('black-stone.png')
-    }
-
-
-    function log(cell){
-        const celIndex = cell.cellIndex;
-        const rowIndex = cell.parentNode.rowIndex;
-
-
-        console.log("clicked my function row is: "+ rowIndex + " column is: "+ celIndex, cell.innerHTML);
-        console.log("Cell has white stone on it: "+ cellHasWhiteStoneOnIt(cell));
-        console.log("Cell is empty: "+ cellIsEmpty(cell));
-        console.log("Status of game is: "+ getStatus());
-        console.log("white cells: "+ getAllCellFromColor(true));
     }
 
 </script>
