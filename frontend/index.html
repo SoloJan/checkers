@@ -215,7 +215,7 @@
         if(canDoAnyHit(fromCell, isWhite)){
             return canHit(fromCell, toCell, isWhite)
         }
-        return canDoBasicMove(fromCell, toCell, isWhite)
+        return !canADifferentStoneHit() && canDoBasicMove(fromCell, toCell, isWhite)
     }
 
     function canDoBasicMove(fromCell, toCell, isWhite){
@@ -237,6 +237,35 @@
             }
         }
         return false;
+    }
+
+    function canADifferentStoneHit(isWhite){
+        const cells = getAllCellFromColor(isWhite);
+        for (const cell of cells) {
+            if(canDoAnyHit(cell, isWhite)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function getAllCellFromColor(isWhite){
+        let cellArray = new Array();
+        const board = document.getElementById("board");
+        for (let row = 0; row < board.rows.length; row++) {
+            for (let column = 0; column < board.rows[row].cells.length; column++) {
+                cellArray.concat()
+                const cell = getCell(row, column);
+
+                if(isWhite && cellHasWhiteStoneOnIt(cell)){
+                    cellArray.push(cell);
+                }
+                if(!isWhite && cellHasBlackStoneOnIt(cell)){
+                    cellArray.push(cell);
+                }
+            }
+        }
+        return cellArray
     }
 
     function canHit(fromCell, toCell, isWhite){
@@ -332,7 +361,7 @@
         console.log("Cell has white stone on it: "+ cellHasWhiteStoneOnIt(cell));
         console.log("Cell is empty: "+ cellIsEmpty(cell));
         console.log("Status of game is: "+ getStatus());
-        console.log("Status of game is: "+ getStatus());
+        console.log("white cells: "+ getAllCellFromColor(true));
     }
 
 </script>
