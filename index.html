@@ -9,7 +9,7 @@
 
 <div class="center-screen" id="status">It is whites turn</div>
 
-<table class="center-screen">
+<table id ="board" class="center-screen">
     <tr>
         <th class="whiteSquare"></th>
         <th class="blackSquare"><img src="black-stone.png"></th>
@@ -131,8 +131,8 @@
         <th class="whiteSquare" onclick="clickCell(this)"></th>
     </tr>
 
-    <input type="hidden" id="selectedRow"  value="0">
-    <input type="hidden" id="selectedColumn"  value="0">
+    <input  id="fromRow"  value="99">
+    <input  id="fromColumn"  value="99">
 </table>
 
 <script>
@@ -153,22 +153,28 @@
     }
 
     function selectStone(cell){
-        if(getStatus() ==  itIsWhitesTurn && cellHasWhiteStoneOnIt(cell)){
+        if(canSelectWhite(cell)){
             selectWhiteStone(cell);
         }
-        if(getStatus() == itIsBlacksTurn && cellHasBlackStoneOnIt(cell)){
+        if(canSelectBlack(cell)){
             selectBlackstone(cell);
         }
     }
 
     function selectWhiteStone(cell){
+        basicSelect(cell);
         setStatus(whiteIsMoving);
-        cell.innerHTML = '';
     }
 
     function selectBlackstone(cell){
-        cell.innerHTML = '';
+        basicSelect(cell);
         setStatus(blackIsMoving);
+    }
+
+    function basicSelect(cell){
+        cell.innerHTML = '';
+        document.getElementById("fromRow").value = cell.parentNode.rowIndex;
+        document.getElementById("fromColumn").value = cell.cellIndex;
     }
 
     function moveStone(cell){
@@ -180,14 +186,66 @@
         }
     }
 
-    function moveWhiteStone(cell){
-        cell.innerHTML = '<img src="white-stone.png">';
-        setStatus(itIsBlacksTurn);
+    function canSelectWhite(cell){
+        return  getStatus() ==  itIsWhitesTurn && cellHasWhiteStoneOnIt(cell) && canDoAnyMove(cell, true);
     }
 
-    function moveBlackStone(cell){
-        cell.innerHTML = '<img src="black-stone.png">';
-        setStatus(itIsWhitesTurn);
+
+    function canSelectBlack(cell){
+        return  getStatus() ==  itIsBlacksTurn && cellHasBlackStoneOnIt(cell) && canDoAnyMove(cell, false)
+    }
+
+    function canDoAnyMove(fromCell, isWhite){
+        const board = document.getElementById("board");
+        for (let row = 0; row < board.rows.length; row++) {
+            for (let column = 0; column < board.rows[row].cells.length; column++) {
+                const toCell = getCell(row, column);
+                if(canDoMove(fromCell, toCell,  isWhite)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function canDoMove(fromCell, toCell, isWhite){
+        return cellIsEmpty(toCell) &&
+        canDoBasicMove(fromCell, toCell, isWhite)
+    }
+
+    function canDoBasicMove(fromCell, toCell, isWhite){
+        const validColumnMove =  (toCell.cellIndex == fromCell.cellIndex+1 || toCell.cellIndex == fromCell.cellIndex-1);
+        if(isWhite){
+            return validColumnMove && toCell.parentNode.rowIndex == fromCell.parentNode.rowIndex -1;
+        }
+        return validColumnMove && toCell.parentNode.rowIndex == fromCell.parentNode.rowIndex +1;
+    }
+
+
+    function getFromRow(){
+        return   document.getElementById("fromRow").value;
+    }
+
+    function getFromColumn(){
+        return  document.getElementById("fromColumn").value;
+    }
+
+    function getCell(row, column){
+        return  document.getElementById("board").rows[row].cells[column];
+    }
+
+    function moveWhiteStone(toCell){
+        if(canDoMove(getCell(getFromRow(), getFromColumn()), toCell, true)) {
+            toCell.innerHTML = '<img src="white-stone.png">';
+            setStatus(itIsBlacksTurn);
+        }
+    }
+
+    function moveBlackStone(toCell){
+        if(canDoMove(getCell(getFromRow(), getFromColumn()), toCell, false)) {
+            toCell.innerHTML = '<img src="black-stone.png">';
+            setStatus(itIsWhitesTurn);
+        }
     }
 
 
