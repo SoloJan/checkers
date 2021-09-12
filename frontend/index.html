@@ -209,8 +209,13 @@
     }
 
     function canDoMove(fromCell, toCell, isWhite){
-        return cellIsEmpty(toCell) &&
-        canDoBasicMove(fromCell, toCell, isWhite)
+        if(!cellIsEmpty(toCell)){
+            return false;
+        }
+        if(canDoAnyHit(fromCell, isWhite)){
+            return canHit(fromCell, toCell, isWhite)
+        }
+        return canDoBasicMove(fromCell, toCell, isWhite)
     }
 
     function canDoBasicMove(fromCell, toCell, isWhite){
@@ -220,6 +225,35 @@
         }
         return validColumnMove && toCell.parentNode.rowIndex == fromCell.parentNode.rowIndex +1;
     }
+
+    function canDoAnyHit(fromCell, isWhite){
+        const board = document.getElementById("board");
+        for (let row = 0; row < board.rows.length; row++) {
+            for (let column = 0; column < board.rows[row].cells.length; column++) {
+                const toCell = getCell(row, column);
+                if(canHit(fromCell, toCell,  isWhite)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function canHit(fromCell, toCell, isWhite){
+        const validColumnMove =  (toCell.cellIndex == fromCell.cellIndex+2 || toCell.cellIndex == fromCell.cellIndex-2);
+        const validRowMove = (toCell.parentNode.rowIndex == fromCell.parentNode.rowIndex +2 || toCell.parentNode.rowIndex == fromCell.parentNode.rowIndex -2);
+        if(isWhite){
+            return validColumnMove && validRowMove && cellHasBlackStoneOnIt(getCellInBetween(fromCell, toCell));
+        }
+        return validColumnMove && validRowMove &&  cellHasWhiteStoneOnIt(getCellInBetween(fromCell, toCell));
+    }
+
+    function getCellInBetween(fromCell, toCell){
+        const cellInBetweenRow = fromCell.parentNode.rowIndex + (((toCell.parentNode.rowIndex - fromCell.parentNode.rowIndex) / 2));
+        const cellInBetweenColumn = fromCell.cellIndex +  (((toCell.cellIndex - fromCell.cellIndex) / 2));
+        return getCell(cellInBetweenRow, cellInBetweenColumn);
+    }
+
 
 
     function getFromRow(){
@@ -235,18 +269,28 @@
     }
 
     function moveWhiteStone(toCell){
-        if(canDoMove(getCell(getFromRow(), getFromColumn()), toCell, true)) {
+        const fromCell = getCell(getFromRow(), getFromColumn());
+        if(canDoMove(fromCell, toCell, true)) {
+            if(canHit(fromCell, toCell, true)){
+                getCellInBetween(fromCell, toCell).innerHTML = '';
+            }
             toCell.innerHTML = '<img src="white-stone.png">';
             setStatus(itIsBlacksTurn);
         }
     }
 
     function moveBlackStone(toCell){
-        if(canDoMove(getCell(getFromRow(), getFromColumn()), toCell, false)) {
+        const fromCell = getCell(getFromRow(), getFromColumn());
+        if(canDoMove(fromCell, toCell, false)) {
+            if(canHit(fromCell, toCell, false)){
+                getCellInBetween(fromCell, toCell).innerHTML = '';
+            }
             toCell.innerHTML = '<img src="black-stone.png">';
             setStatus(itIsWhitesTurn);
         }
     }
+
+
 
 
     function shouldSelectStone(){
