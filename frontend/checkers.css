@@ -9,4 +9,19 @@
     height: 80px;
 }
 
+.center-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 
+
+
+.table {
+    horiz-align: center;
+}
+
+.div {
+    horiz-align: center;
+}
