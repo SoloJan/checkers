@@ -24,8 +24,13 @@ You probably not really into playing checkers and you probably just start lookin
 want to play start reading the readme in the backend project on how to get started.
 
 # Checkers for managers
-So there is also a frontend project which is basically a static HTML5 file with some javascript. 
+There is also a frontend project which is basically a static HTML5 file with some javascript. 
 I just felt like playing around and have something visual to show as well. The thing I like about it is that its extremely
-lightweight, just clicking the HTML in the frontend project does the trick. I also wanted to discover github pages 
-it is a recently added feature from github which I have not used before. 
+lightweight, just clicking the HTML in the frontend project does the trick. I also added a ci/cd pipeline which 
+deploys the frontend to git hub pages. This means that you can view the end result online
 
+https://solojan.github.io/checkers/  
+
+The frontend and the backend have nothing to do with each other, they are two separate implementations of the same game
+
+The code in the frontend is not of very high quality there are many ways of improving on it.
