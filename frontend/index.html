@@ -7,7 +7,9 @@
 </head>
 <body>
 
-<table>
+<div class="center-screen" id="status">It is whites turn</div>
+
+<table class="center-screen">
     <tr>
         <th class="whiteSquare"></th>
         <th class="blackSquare"><img src="black-stone.png"></th>
@@ -45,90 +47,196 @@
         <th class="blackSquare"><img src="black-stone.png"></th>
     </tr>
     <tr>
-        <th class="blackSquare"><img src="black-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="black-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="black-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="black-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="black-stone.png"></th>
-        <th class="whiteSquare"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="black-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
     </tr>
     <tr>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"></th>
+        <th class="whiteSquare"  onclick="clickCell(this)"></th>
+        <th class="blackSquare"  onclick="clickCell(this)"></th>
+        <th class="whiteSquare"  onclick="clickCell(this)"></th>
+        <th class="blackSquare"  onclick="clickCell(this)"></th>
+        <th class="whiteSquare"  onclick="clickCell(this)"></th>
+        <th class="blackSquare"  onclick="clickCell(this)"></th>
+        <th class="whiteSquare"  onclick="clickCell(this)"></th>
+        <th class="blackSquare"  onclick="clickCell(this)"></th>
+        <th class="whiteSquare"  onclick="clickCell(this)"></th>
+        <th class="blackSquare"  onclick="clickCell(this)"></th>
     </tr>
     <tr>
-        <th class="blackSquare"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"></th>
-        <th class="whiteSquare"></th>
+        <th class="blackSquare"  onclick="clickCell(this)"></th>
+        <th class="whiteSquare"  onclick="clickCell(this)"></th>
+        <th class="blackSquare"  onclick="clickCell(this)"></th>
+        <th class="whiteSquare"  onclick="clickCell(this)"></th>
+        <th class="blackSquare"  onclick="clickCell(this)"></th>
+        <th class="whiteSquare"  onclick="clickCell(this)"></th>
+        <th class="blackSquare"  onclick="clickCell(this)"></th>
+        <th class="whiteSquare"  onclick="clickCell(this)"></th>
+        <th class="blackSquare"  onclick="clickCell(this)"></th>
+        <th class="whiteSquare"  onclick="clickCell(this)"></th>
     </tr>
     <tr>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="white-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="white-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="white-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="white-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"> <img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="white-stone.png"></th>
     </tr>
     <tr>
-        <th class="blackSquare"><img src="white-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="white-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="white-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="white-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="white-stone.png"></th>
-        <th class="whiteSquare"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"> <img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
     </tr>
     <tr>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="white-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="white-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="white-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="white-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"> <img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="white-stone.png"></th>
     </tr>
     <tr>
-        <th class="blackSquare"><img src="white-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="white-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="white-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="white-stone.png"></th>
-        <th class="whiteSquare"></th>
-        <th class="blackSquare"><img src="white-stone.png"></th>
-        <th class="whiteSquare"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"> <img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
+        <th class="blackSquare" onclick="clickCell(this)"><img src="white-stone.png"></th>
+        <th class="whiteSquare" onclick="clickCell(this)"></th>
     </tr>
 
+    <input type="hidden" id="selectedRow"  value="0">
+    <input type="hidden" id="selectedColumn"  value="0">
 </table>
+
+<script>
+
+    const itIsWhitesTurn = 'It is whites turn';
+    const whiteIsMoving = 'White is moving';
+    const itIsBlacksTurn= 'It is blacks turn';
+    const blackIsMoving = 'Black is moving';
+
+    function clickCell(cell) {
+        log(cell);
+        if(shouldSelectStone()) {
+            selectStone(cell);
+        }
+        else {
+            moveStone(cell);
+        }
+    }
+
+    function selectStone(cell){
+        if(getStatus() ==  itIsWhitesTurn && cellHasWhiteStoneOnIt(cell)){
+            selectWhiteStone(cell);
+        }
+        if(getStatus() == itIsBlacksTurn && cellHasBlackStoneOnIt(cell)){
+            selectBlackstone(cell);
+        }
+    }
+
+    function selectWhiteStone(cell){
+        setStatus(whiteIsMoving);
+        cell.innerHTML = '';
+    }
+
+    function selectBlackstone(cell){
+        cell.innerHTML = '';
+        setStatus(blackIsMoving);
+    }
+
+    function moveStone(cell){
+        if(cellIsEmpty(cell) && getStatus() == whiteIsMoving) {
+            moveWhiteStone(cell);
+        }
+        if(cellIsEmpty(cell) && getStatus() == blackIsMoving) {
+            moveBlackStone(cell);
+        }
+    }
+
+    function moveWhiteStone(cell){
+        cell.innerHTML = '<img src="white-stone.png">';
+        setStatus(itIsBlacksTurn);
+    }
+
+    function moveBlackStone(cell){
+        cell.innerHTML = '<img src="black-stone.png">';
+        setStatus(itIsWhitesTurn);
+    }
+
+
+    function shouldSelectStone(){
+        return getStatus() == itIsWhitesTurn || getStatus() == itIsBlacksTurn;
+    }
+
+    function getStatus(){
+        return getStatusDiv().innerText
+
+    }
+
+    function setStatus(status){
+        getStatusDiv().innerHTML = status
+    }
+
+    function getStatusDiv(){
+        return  document.getElementById("status");
+    }
+
+    function cellIsEmpty(cell){
+        return cell.lastChild == null;
+    }
+
+    function cellHasWhiteStoneOnIt(cell){
+        return !cellIsEmpty(cell) &&  cell.lastChild.src.endsWith('white-stone.png')
+    }
+
+    function cellHasBlackStoneOnIt(cell){
+        return !cellIsEmpty(cell) &&  cell.lastChild.src.endsWith('black-stone.png')
+    }
+
+
+    function log(cell){
+        const celIndex = cell.cellIndex;
+        const rowIndex = cell.parentNode.rowIndex;
+
+
+        console.log("clicked my function row is: "+ rowIndex + " column is: "+ celIndex, cell.innerHTML);
+        console.log("Cell has white stone on it: "+ cellHasWhiteStoneOnIt(cell));
+        console.log("Cell is empty: "+ cellIsEmpty(cell));
+        console.log("Status of game is: "+ getStatus());
+        console.log("Status of game is: "+ getStatus());
+    }
+
+</script>
+
 </body>
+
+
+
 </html>
