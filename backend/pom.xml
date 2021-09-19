@@ -7,6 +7,42 @@
     <artifactId>checkers-for-nerds</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <skip.owasp.check>true</skip.owasp.check>
+                <owasp.report.format>HTML</owasp.report.format>
+            </properties>
+        </profile>
+        <profile>
+            <id>owasp</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <sonar.organization>solojan</sonar.organization>
+                <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+                <skip.owasp.check>false</skip.owasp.check>
+                <owasp.report.format>HTML</owasp.report.format>
+            </properties>
+        </profile>
+        <profile>
+            <id>owasp_sonar</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <skip.owasp.check>false</skip.owasp.check>
+                <owasp.report.format>XML</owasp.report.format>
+            </properties>
+        </profile>
+    </profiles>
+
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
@@ -94,6 +130,26 @@
                 <!-- Use UTC as default timezone for all tests-->
                 <argLine>-Duser.timezone=UTC ${argLine}</argLine>
             </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.owasp</groupId>
+            <artifactId>dependency-check-maven</artifactId>
+            <version>6.1.6</version>
+            <configuration>
+                <skip>${skip.owasp.check}</skip>
+                <format>${owasp.report.format}</format>
+                <skipProvidedScope>true</skipProvidedScope>
+                <skipRuntimeScope>true</skipRuntimeScope>
+                <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
+                <suppressionFiles>${project.basedir}/../dependency-suppressions.xml</suppressionFiles>
+            </configuration>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>check</goal>
+                    </goals>
+                </execution>
+            </executions>
         </plugin>
         <plugin>
             <groupId>org.jacoco</groupId>
