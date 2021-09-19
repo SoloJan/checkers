@@ -15,6 +15,8 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
+                <sonar.organization>solojan</sonar.organization>
+                <sonar.host.url>https://sonarcloud.io</sonar.host.url>
                 <skip.owasp.check>true</skip.owasp.check>
                 <owasp.report.format>HTML</owasp.report.format>
             </properties>
