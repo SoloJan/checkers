@@ -5,7 +5,7 @@ This repository contains two projects both implement a checkers game. One is a p
 frontend project the two are not connected at all. The backend is a serious project written in the techniques I use and 
 like. The frontend is just a little joke on the side I wanted to try out the static pages which github recently added. 
 I'm very aware that the code in the frontend is not good I would not even do it this way if I would make a frontend, 
-but it was easy to make and 
+but it was easy to make and nice to have something visual to play with. 
 
 # Checkers for nerds
 Checkers for nerds is very intuitive but only if you are used to working with REST api's. It has the latest 
